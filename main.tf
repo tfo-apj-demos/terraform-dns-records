@@ -3,6 +3,7 @@ resource "dns_a_record_set" "a_record" {
   zone      = var.zone
   name      = var.a_records[count.index].name
   addresses = var.a_records[count.index].addresses
+  ttl       = coalesce(var.a_records[count.index].ttl, var.default_ttl)
 }
 
 resource "dns_cname_record" "cname_record" {
@@ -10,4 +11,5 @@ resource "dns_cname_record" "cname_record" {
   zone     = var.zone
   name     = each.value.name
   cname    = each.value.cname
+  ttl      = coalesce(each.value.ttl, var.default_ttl)
 }
